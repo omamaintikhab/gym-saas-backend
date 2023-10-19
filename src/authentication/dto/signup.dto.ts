@@ -22,3 +22,14 @@ export class SignupDto {
   @IsEnum(UserType) // Specify the specific roles allowed
   role: UserType;
 }
+
+export class LoginDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsAlphanumeric()
+  password: string;
+  
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
-import { SignupDto } from './dto/signup.dto';
+import { LoginDto, SignupDto } from './dto/signup.dto';
 import { UpdateAuthenticationDto } from './dto/update-authentication.dto';
+import { LoginResponse } from './types';
 
 @Controller('auth')
 export class AuthenticationController {
@@ -13,23 +14,9 @@ export class AuthenticationController {
     return this.authenticationService.signup(signupDto);
   }
 
-  @Get()
-  findAll() {
-    return this.authenticationService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authenticationService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthenticationDto: UpdateAuthenticationDto) {
-    return this.authenticationService.update(+id, updateAuthenticationDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authenticationService.remove(+id);
+  @Post('login')
+  async loginUser(@Body() loginDto: LoginDto): Promise<LoginResponse> {
+    console.log('in the login', loginDto)
+    return this.authenticationService.login(loginDto);
   }
 }
