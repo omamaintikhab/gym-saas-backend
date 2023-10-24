@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Expenses } from 'src/expenses/entities/expense.entity';
+import { Business } from '../../business/entities/business.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Income } from 'src/income/entities/income.entity';
 
 export enum UserType{
     NORMAL = 'normal user',
@@ -28,4 +31,13 @@ export class User {
     default: UserType.NORMAL, // Set a default role
   })
   user_role: UserType;
+
+  @ManyToOne(() => Business, business => business.users)
+  business: Business;
+
+  @OneToMany(() => Expenses, expenses => expenses.created_by_user)
+  expenses: Expenses[];
+
+  @OneToMany(() => Income, income => income.created_by_user)
+  income: Income[];
 }
